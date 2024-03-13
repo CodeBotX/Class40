@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate
 class SignUpForm(forms.Form):
     email = forms.EmailField(label='Email')
     id = forms.CharField(label="ID")
+    first_name = forms.CharField(label='FirstName')
+    last_name = forms.CharField(label ="LastName")
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation" ,widget=forms.PasswordInput)
     def clean_password2(self):

@@ -2,6 +2,25 @@
 {% block title %}SignUp{% endblock title %}
 
 
+{% comment %} 
+
+http://127.0.0.1:8000/signup/
+
+Sigin là để đăng kí giáo viên
+Để đăng nhập cần nhập 5 trường, email, id, first_name , last_name , password1 ,password2 (input)
+email: {{SignUpForm.email}}
+password: SignUpForm.password
+cấu trúc tương tự cho các trường còn lại
+
+Lưu ý: 
+1. phải đặt 2 trường này trong thẻ form, not table
+2. method như vd bên dưới đang sử dụng
+3. {% csrf_token %} nằm dưới thẻ form
+
+
+{% endcomment %}
+
+
 {% block content %}
 <h2>SignUp</h2>
 <form method="post">

@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock title %}
 
+{% comment %} 
+http://127.0.0.1:8000/login/
+
+Login chính là home
+Để đăng nhập cần nhập 2 trường, email và password (input)
+email: {{loginForm.email}}
+password: loginForm.password
+
+Lưu ý: 
+1. phải đặt 2 trường này trong thẻ form, not table
+2. method như vd bên dưới đang sử dụng
+3. {% csrf_token %} nằm dưới thẻ form
+
+
+{% endcomment %}
+
 
 {% block content %}
 <h2>Login</h2>
