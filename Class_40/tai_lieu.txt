@@ -1,0 +1,3 @@
+CM: app quản ý lớp học
+SM: app nhà trường quản lý chung
+app_User: app quản lý người dùng custom. ( Teacher )
