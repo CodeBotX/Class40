@@ -29,8 +29,10 @@ class SignUpForm(forms.Form):
         email = self.cleaned_data['email']
         password = self.cleaned_data['password1']
         id = self.cleaned_data['id']
+        last_name = self.cleaned_data['last_name']
+        first_name = self.cleaned_data['first_name']
         # Tạo đối tượng Teacher mới
-        teacher = Teacher(email=email, id=id)
+        teacher = Teacher(email=email, id=id,first_name=first_name,last_name=last_name)
         teacher.set_password(password)  # Mã hóa mật khẩu
         teacher.save()  # Lưu teacher vào cơ sở dữ liệu
         return teacher
