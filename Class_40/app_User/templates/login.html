@@ -59,7 +59,7 @@ Lưu ý:
                           {{value}}
                       {% endfor %}
                       <div class="mb-3 mt-3">
-                        <label for="email" class="form-label">Username:</label>
+                        <label for="email" class="form-label">Email:</label>
                         {% comment %} <input type="email" class="form-control" id="Username" placeholder="Enter Username" name="Username"> {% endcomment %}
                         {{loginForm.email}}
                       </div>
@@ -68,7 +68,7 @@ Lưu ý:
                         {% comment %} <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd"> {% endcomment %}
                         {{loginForm.password}}
                       </div>
-                      <input type= "hidden" name="next" value="/option"/>
+                      <input type= "hidden" name="next" value=""/>
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
   

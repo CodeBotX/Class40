@@ -1,3 +1,7 @@
+
+
+
+# 
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -5,9 +9,7 @@ from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
 
-# Create your views here.
-
-# User = get_user_model()
+# 
 def teacher_register(request):
   form = SignUpForm()
   template = loader.get_template('signup.html')
@@ -15,7 +17,7 @@ def teacher_register(request):
     form = SignUpForm(request.POST)
     if form.is_valid():
       form.save()
-      return HttpResponseRedirect('home/')
+      return redirect('Home_Login')
   context = {
     'signupForm': form
   }
@@ -30,7 +32,7 @@ def teacher_login_home(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/success/')  # Thay đổi thành URL của trang thành công
+                return HttpResponseRedirect('classroom/')  # Thay đổi thành URL của trang thành công
     else:
         form = LoginForm()
     return render(request, 'login.html', {'loginForm': form})
