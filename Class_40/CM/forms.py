@@ -9,6 +9,7 @@ Form lựa chọn lớp học
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import *
+from SM.models import Classroom as SM_Classroom
 
 # 
 class MarkAddForm(forms.Form):
@@ -23,7 +24,7 @@ class MarkAddForm(forms.Form):
 
 # Form chọn lớp học
 class ClassroomSelectionForm(forms.Form):
-    classroom = forms.ModelChoiceField(queryset=Classroom.objects.all(), empty_label=None, label='Select a Classroom')
+    classroom = forms.ModelChoiceField(queryset=SM_Classroom.objects.all(), empty_label=None, label='Select a Classroom')
     
 # Form add lession
 

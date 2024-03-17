@@ -1,9 +1,23 @@
 from django.db import models
 from .models import *
-from CM.models import Subject as CM_Subject
-from CM.models import Classroom as CM_Classroom
 from django.core.exceptions import ValidationError
 
+
+
+
+class Subject (models.Model):
+    id = models.CharField(primary_key=True, max_length = 10)
+    name = models.CharField(max_length = 100,blank=False, null=False) # cần đảm bảo bắt buôc phải có
+    def __str__(self):
+        return f"{self.id}-{self.name}"
+
+class Classroom(models.Model):
+    name = models.CharField(primary_key=True,max_length=100)
+    manager = models.ForeignKey('app_User.Teacher', on_delete=models.CASCADE,related_name='classroom') # 1 lớp chỉ có 1 giáo viên và ngược lại 
+    subjects = models.ManyToManyField(Subject,blank=True, related_name='classrooms') # choise từ subject
+
+    def __str__(self):
+        return self.name
 
 
 class LessonTime(models.Model):
@@ -31,14 +45,14 @@ class DailySchedule(models.Model):
         (6, 'Sunday'),
     )
     day_of_week = models.IntegerField(choices=DAY_CHOICES,)
-    classroom = models.ForeignKey(CM_Classroom, on_delete=models.CASCADE, related_name='daily_schedules')
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='daily_schedules')
     def __str__(self):
         return f"{self.classroom.name} - {self.day_of_week}"
 
 class ScheduleEntry(models.Model):
     daily_schedule = models.ForeignKey(DailySchedule, on_delete=models.CASCADE, related_name='schedule_entries')
     period = models.ForeignKey(LessonTime, on_delete=models.CASCADE)
-    subject = models.ForeignKey(CM_Subject, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['period__start_time']  # Sắp xếp theo thời gian bắt đầu

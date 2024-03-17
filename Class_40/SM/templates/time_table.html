@@ -10,10 +10,12 @@ Hiển thị form đánh giá Tiết Học
 
 
 {% block content %}
-<br>
-<form method="post">
-    {% csrf_token %}
-    {{ addtimetableForm.as_p }}
-    <button type="submit">Thêm thời khóa biểu</button>
-</form>
+{% comment %} <body>
+    <h2>Thêm Thời Khóa Biểu</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Thêm</button>
+    </form>
+</body> {% endcomment %}
 {% endblock content %}

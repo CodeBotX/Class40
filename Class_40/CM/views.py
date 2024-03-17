@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import StudentSerializer
 from django.shortcuts import get_object_or_404, render
+from SM.models import Subject as SM_Subject
+from SM.models import Classroom as SM_Classroom
 
 
 # Create your views here.
@@ -18,7 +20,7 @@ def home_view(request):
         classroom = request.GET.get('classroom')
         if classroom:
             return redirect('classroom', classroom=classroom)
-    classrooms = Classroom.objects.all()
+    classrooms = SM_Classroom.objects.all()
     return render(request, 'home.html', {'classrooms': classrooms})
 
 
@@ -38,6 +40,6 @@ def add_mark(request):
 
 def classroom(request, classroom):
     # Hiển thị học sinh trong lớp
-    classroom = get_object_or_404(Classroom, name=classroom)
+    classroom = get_object_or_404(SM_Classroom, name=classroom)
     students = classroom.student.all()
     return render(request, 'classroom.html', {'classroom': classroom, 'student': students})
