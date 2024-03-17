@@ -57,7 +57,7 @@ class ScheduleEntry(models.Model):
     class Meta:
         ordering = ['period__start_time']  # Sắp xếp theo thời gian bắt đầu
 
-    def __str__(self):
-        return f"{self.daily_schedule.classroom.name} - {self.get_day_display()} - Tiết {self.period.period}: {self.subject.name} ({self.period.start_time.strftime('%H:%M')} - {self.period.end_time.strftime('%H:%M')})"
+    # def __str__(self):
+    #     return f"{self.daily_schedule.classroom.name} - {self.get_day_display()} - Tiết {self.period.period}: {self.subject.name} ({self.period.start_time.strftime('%H:%M')} - {self.period.end_time.strftime('%H:%M')})"
     
     
