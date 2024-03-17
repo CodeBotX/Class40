@@ -3,7 +3,10 @@
 
 
 {% block content %}
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+<form method="get" action="{% url 'select_classroom' %}">
+    {% csrf_token %}
+    {{ selectclassroomForm.as_p }}
+    <button type="submit">Submit</button>
+</form>
 
 {% endblock content %}

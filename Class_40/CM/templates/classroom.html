@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock title %}
 
+{% comment %} 
+
+Hiển thị sơ đồ lớp
+Hiển thị form đánh giá Tiết Học
+
+{% endcomment %}
+
 
 {% block content %}
-<h1>Hello World!</h1>
-<p>Welcome to my first Django project!</p>
+
+<h1>{{ classroom.name }}</h1>
+<ul>
+    {% for student in student %}
+        <li>{{ student.full_name }}</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}

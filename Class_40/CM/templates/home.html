@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+<h1>Hello World!</h1>
+<p>Welcome to my first Django project!</p>
+
+<form method="get">
+    <select name="classroom">
+        {% for classroom in classrooms %}
+            <option value="{{ classroom.name }}">{{ classroom.name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Chọn">
+</form>
+
+{% endblock content %}

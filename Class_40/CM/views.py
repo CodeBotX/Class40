@@ -2,21 +2,26 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.template import loader
 from .forms import *
-from django.contrib.auth import get_user_model 
+from .models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import StudentSerializer
+from django.shortcuts import get_object_or_404, render
+
 
 # Create your views here.
 
-def classroom_view(request):
-    template = loader.get_template('classroom.html')
-    return HttpResponse(template.render())
+def home_view(request):
+    # Giáo viên chọn Lớp học
+    template = loader.get_template('home.html')
+    if request.method == 'GET':
+        classroom = request.GET.get('classroom')
+        if classroom:
+            return redirect('classroom', classroom=classroom)
+    classrooms = Classroom.objects.all()
+    return render(request, 'home.html', {'classrooms': classrooms})
 
-def test_view(request):
-    template = loader.get_template('testForm.html')
-    # form = SignUpForm()
-    context = {
-        #'signupForm': form
-    }
-    return HttpResponse(template.render())
+
 
 def add_mark(request):
     if request.method == 'POST':
@@ -30,3 +35,9 @@ def add_mark(request):
         form = MarkAddForm()
 
     return render(request, 'testForm.html', {'add_markForm': form})
+
+def classroom(request, classroom):
+    # Hiển thị học sinh trong lớp
+    classroom = get_object_or_404(Classroom, name=classroom)
+    students = classroom.student.all()
+    return render(request, 'classroom.html', {'classroom': classroom, 'student': students})

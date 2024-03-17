@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+
+{% comment %} 
+
+Hiển thị sơ đồ lớp
+Hiển thị form đánh giá Tiết Học
+
+{% endcomment %}
+
+
+{% block content %}
+<br>
+<form method="post">
+    {% csrf_token %}
+    {{ addtimetableForm.as_p }}
+    <button type="submit">Thêm thời khóa biểu</button>
+</form>
+{% endblock content %}

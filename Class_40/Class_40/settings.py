@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'CM',
-    'app_User'
+    'app_User',
+    'SM'
     
 ]
 
@@ -129,4 +130,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'app_User.Teacher'
-LOGIN_URL = 'Home_Login'
+LOGIN_URL = 'Login'

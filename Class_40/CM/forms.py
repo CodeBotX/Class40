@@ -8,6 +8,7 @@ Form lựa chọn lớp học
 
 from django import forms
 from django.core.exceptions import ValidationError
+from .models import *
 
 # 
 class MarkAddForm(forms.Form):
@@ -19,3 +20,11 @@ class MarkAddForm(forms.Form):
         if mark <= 0 or mark >= 10:
             raise ValidationError('Điểm số phải nằm trong khoảng từ 0 đến 10.') 
         return mark
+
+# Form chọn lớp học
+class ClassroomSelectionForm(forms.Form):
+    classroom = forms.ModelChoiceField(queryset=Classroom.objects.all(), empty_label=None, label='Select a Classroom')
+    
+# Form add lession
+
+# 

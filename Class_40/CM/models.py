@@ -28,7 +28,7 @@ class Classroom(models.Model):
 class Student(models.Model):
     id = models.IntegerField(primary_key=True)
     full_name = models.CharField(max_length=100,blank=False, null=False)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='students') # cho phép classroom truy vấn được các student của mình
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='student') # cho phép classroom truy vấn được các student của mình
     def __str__(self):
         return f"{self.full_name} - {self.id}" 
 
@@ -41,7 +41,7 @@ class Lessons (models.Model):
     comment = models.TextField()
     date_time = models.DateTimeField(auto_now_add=True)
     grades = (
-        ('G', 'Giỏi'),
+        ('T', 'Tốt'),
         ('K', 'Khá'),
         ('TB', 'Trung Bình'),
         ('Y', 'Yếu'),

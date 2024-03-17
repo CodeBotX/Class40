@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate
 
 
 class SignUpForm(forms.Form):
-    email = forms.EmailField(label='Email')
-    id = forms.CharField(label="ID")
+    email = forms.EmailField(label='Email',widget=forms.EmailInput)
+    id = forms.CharField(label="ID",widget=forms.NumberInput)
     first_name = forms.CharField(label='FirstName')
     last_name = forms.CharField(label ="LastName")
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
