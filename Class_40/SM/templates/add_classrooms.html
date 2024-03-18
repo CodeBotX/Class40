@@ -1,0 +1,15 @@
+
+
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+
+
+
+{% block content %}
+<h2>Thêm lớp học</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{add_classroomForm.as_p }}
+    <button type="submit">Thêm</button>
+</form>
+{% endblock content %}

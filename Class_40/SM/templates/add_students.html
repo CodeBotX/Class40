@@ -10,10 +10,10 @@ Hiển thị form đánh giá Tiết Học
 
 
 {% block content %}
-<h2>Thêm Tiết Họcc</h2>
+<h2>Thêm học sinh</h2>
     <form method="POST">
         {% csrf_token %}
-        {{add_lesson_timeForm.as_p }}
+        {{add_studentForm.as_p }}
         <button type="submit">Thêm</button>
     </form>
 {% endblock content %}

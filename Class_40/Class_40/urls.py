@@ -23,5 +23,4 @@ urlpatterns = [
     path('', include('app_User.urls')),
     path('admin/', admin.site.urls),
 
-    # path('', include('SM.urls')),
 ]
