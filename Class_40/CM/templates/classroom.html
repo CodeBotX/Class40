@@ -30,4 +30,48 @@ Tên lớp,tên môn , Tiết trong ngày
     {% endfor %}
 </ul>
 
-{% endblock content %}
+<h1>{{now_subject}}</h1>
+<h1>{{period}}</h1>
+
+<table>
+    {% for row in rows %}
+    <tr>
+        {% for column in columns %}
+        <td> 
+            {% for seat in seats %}
+                {% if seat.row == row and seat.column == column %}
+                    Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
+                    {% if seat.student %}
+                    {{ seat.student.full_name }}
+                    {% else %}
+                    Trống
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+{{now}} <br>
+{{day_of_week}}
+<br>
+{{daily_schedule}}
+
+<h2>Thêm bài học</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{form_addlesson.as_p }}
+    <button type="submit">Thêm</button>
+  </form>
+
+ {% endblock content %}
+{% comment %} 
+<a href="{% url 'student_detail' student.student_ID %}" 
+
+path('student/<int:student_ID>', views.student_detail, name='student_detail'),
+
+
+{% endcomment %}

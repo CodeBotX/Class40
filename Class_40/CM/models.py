@@ -5,13 +5,7 @@ from SM.models import Subject as SM_Subject
 from SM.models import Classroom as SM_Classroom
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-# blank=False đảm bảo rằng trường không được để trống khi biểu mẫu được gửi (liên quan đến xác thực dữ liệu biểu mẫu).
-# null=False đảm bảo rằng cơ sở dữ liệu sẽ không lưu giá trị NULL cho trường này (liên quan đến cơ sở dữ liệu).
-
-# Create your models here.
-
-    
+  
 
 class Student(models.Model):
     id = models.IntegerField(primary_key=True)

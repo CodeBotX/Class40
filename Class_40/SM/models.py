@@ -48,10 +48,12 @@ class DailySchedule(models.Model):
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='daily_schedules')
     def __str__(self):
         return f"{self.classroom.name} - {self.day_of_week}"
+    def get_dayofweek(self):
+        return f"{self.day_of_week}"
 
 class ScheduleEntry(models.Model):
     daily_schedule = models.ForeignKey(DailySchedule, on_delete=models.CASCADE, related_name='schedule_entries')
-    period = models.ForeignKey(LessonTime, on_delete=models.CASCADE)
+    period = models.OneToOneField(LessonTime, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     class Meta:

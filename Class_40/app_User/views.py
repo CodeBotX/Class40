@@ -32,7 +32,7 @@ def teacher_login_home(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('classroom/')  # Thay đổi thành URL của trang thành công
+                return HttpResponseRedirect('home/')  # Thay đổi thành URL của trang thành công
     else:
         form = LoginForm()
     return render(request, 'login.html', {'loginForm': form})
