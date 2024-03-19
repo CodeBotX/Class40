@@ -19,58 +19,20 @@ Lưu ý:
 
 
 {% block content %}
-
-<form id="loginForm" method="post" action="{% url 'Login' %}">
-    {% csrf_token %}
-    {{ loginForm.as_p }}
-    <button type="submit">Login</button>
-</form>
-
-<!-- Form Tra Cứu -->
-<form id="lookupForm" method="post" action="{% url 'LookUP' %}"> <!-- Chú ý: Giả sử 0 là giá trị mặc định hoặc placeholder -->
-    {% csrf_token %}
-    {{ lookupForm.as_p }}
-    <button type="submit">Lookup</button>
-</form>
-
-
-{% comment %} <h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ loginForm.as_p }}
-    <button type="submit">Login</button>
-</form> {% endcomment %}
-
-
-{% comment %} <h1>Login</h1>
-
-    <!-- Form Đăng Nhập -->
-    <form id="loginForm" method="post" action="{% url 'Login' %}">
+<h2>Login</h2>
+    <form id="loginForm" method="post">
         {% csrf_token %}
         {{ loginForm.as_p }}
-        <button type="submit" onclick="setAction('login')">Login</button>
+        <button type="submit" name="action" value="login">Login</button>
     </form>
 
-    <!-- Form Tra Cứu -->
-    <form id="lookupForm" method="post" action="{% url 'LookUP' %}">
+    <br>
+
+    <h2>Tra Cứu</h2>
+    <form id="lookupForm" method="post">
         {% csrf_token %}
         {{ lookupForm.as_p }}
-        <button type="submit" onclick="setAction('lookup')">Lookup</button>
+        <button type="submit" name="action" value="check">Tra Cứu</button>
     </form>
-
-    <script>
-        // Function để đặt hành động tương ứng dựa trên nút mà người dùng nhấn
-        function setAction(action) {
-            if (action === 'login') {
-                document.getElementById('loginForm').action = "{% Login' %}";
-                document.getElementById('lookupForm').action = "{% url 'student_lookup_form' %}";
-            } else if (action === 'lookup') {
-                document.getElementById('loginForm').action = "{% url 'teacher_login_home' %}";
-                document.getElementById('lookupForm').action = "{% url 'LookUP' %}";
-            }
-        }
-    </script> {% endcomment %}
-
-
 
 {% endblock content %}

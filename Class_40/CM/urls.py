@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.home, name='Home'),
     path('<str:classroom>/', views.classroom, name= 'classroom'),
     path('<str:classroom>/summary/', views.summary_view, name= 'summary'), 
-    path('<str:classroom>/<int:student>/', views.studentMark_inSubject, name= 'studentMark_inSubject'), 
+    path('<str:classroom>/<int:student>/', views.studentMark_inSubject, name= 'studentMark_inSubject'),
 
 ]
 

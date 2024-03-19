@@ -146,6 +146,7 @@ def studentMark_inSubject(request,classroom,student):
     return render(request, 'details.html', context)
 
 
+
     
     
     
