@@ -2,12 +2,13 @@
 
 
 # 
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
+from CM.models import Student
 
 # 
 def teacher_register(request):
@@ -36,3 +37,13 @@ def teacher_login_home(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'loginForm': form})
+  
+def student_lookup_form(request):
+    if request.method == 'POST':
+        form = StudentLookupForm(request.POST)
+        if form.is_valid():
+            student_id = form.cleaned_data['student_id']
+            return redirect('LookUP', student=student_id)
+    else:
+        form = StudentLookupForm()
+    return render(request, 'login.html', {'lookupForm': form})

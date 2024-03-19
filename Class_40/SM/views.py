@@ -5,6 +5,7 @@ from .models import DailySchedule
 from .serializers import DailyScheduleSerializer
 from .forms import *
 from django.contrib import messages
+from django.db import IntegrityError
 
 def school_view(request):
     return render(request, 'school.html')
@@ -61,14 +62,27 @@ class DailyScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = DailyScheduleSerializer
 
 # xử lý người dùng add thời Khóa biểu 
-from .forms import DailyScheduleForm
-from .models import DailySchedule
+# def add_schedule(request):
+#     if request.method == 'POST':
+#         form = ScheduleForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Thêm lịch học thành công!')
+#     else:
+#         form = ScheduleForm()
+
+#     return render(request, 'time_table.html', {'form': form})
+
 def add_schedule(request):
     if request.method == 'POST':
-        form = DailyScheduleForm(request.POST)
+        form = ScheduleForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('schedule_list')
+            try:
+                form.save()
+                messages.success(request, 'Thêm lịch học thành công!')
+            except IntegrityError:
+                messages.error(request, 'Lỗi: Tiết học này đã được thêm rồi.')
     else:
-        form = DailyScheduleForm()
-    return render(request, 'add_schedule.html', {'form': form})
+        form = ScheduleForm()
+
+    return render(request, 'time_table.html', {'timetable_form': form})

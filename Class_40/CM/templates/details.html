@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+
 {% comment %} 
 Tên học sinh 
 ( ảnh của học sinh, nếu còn 2 ngày)
@@ -10,3 +13,17 @@ add điểm của học sinh,
 Form add điểm (học sinh được lấy tự động)
 -> cần 1 trường nhập điểm và nút save
 {% endcomment %}
+
+{% block content %}
+<h1>Điểm của Học Sinh: {{ student.name }} - Môn: {{ subject.name }}</h1>
+    {% if mark_record %}
+        <h2>Điểm</h2>
+        <ul>
+        {% for mark in mark_record.Mark %}
+            <li>Điểm: {{ mark.Mark }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Không có thông tin điểm cho học sinh này.</p>
+    {% endif %}
+{% endblock content %}

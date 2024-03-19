@@ -29,3 +29,20 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['id', 'full_name', 'classroom']
+
+class ScheduleForm(forms.Form):
+    day_of_week = forms.ChoiceField(choices=DailySchedule.DAY_CHOICES)
+    classroom = forms.ModelChoiceField(queryset=Classroom.objects.all())
+    period = forms.ModelChoiceField(queryset=LessonTime.objects.all())
+    subject = forms.ModelChoiceField(queryset=Subject.objects.all())
+
+    def save(self):
+        daily_schedule = DailySchedule.objects.create(
+            day_of_week=self.cleaned_data['day_of_week'],
+            classroom=self.cleaned_data['classroom']
+        )
+        ScheduleEntry.objects.create(
+            daily_schedule=daily_schedule,
+            period=self.cleaned_data['period'],
+            subject=self.cleaned_data['subject']
+        )

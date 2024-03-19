@@ -8,10 +8,11 @@ from SM.models import LessonTime
 from SM.models import DailySchedule
 from SM.models import ScheduleEntry
 from SM.models import Subject
-from django.utils import timezone
-from datetime import datetime
+from django.http import HttpResponseRedirect
+from datetime import datetime,timedelta
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.urls import reverse
 
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
@@ -23,8 +24,12 @@ def home(request):
     template = loader.get_template('home.html')
     if request.method == 'GET':
         classroom = request.GET.get('classroom')
+        action = request.GET.get('action')
         if classroom:
-            return redirect('classroom', classroom=classroom)
+            if action == 'Dạy Học':
+                return redirect('classroom', classroom=classroom)
+            elif action == 'Tổng Kết':
+                return redirect('summary', classroom=classroom)
     classrooms = SM_Classroom.objects.all()
     return render(request, 'home.html', {'classrooms': classrooms})
 
@@ -48,8 +53,9 @@ def classroom(request, classroom):
     classroom = get_object_or_404(SM_Classroom, name=classroom) # đưa vào add lesson
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
     period = get_period() # tiết test
-    now_subject = get_subject(classroom=classroom, period= period) 
-    now = timezone.now().time()
+    now_subject = get_subject(classroom=classroom, period= period)
+    now = datetime.now()
+    # now = timezone.now().time()
     day_number = datetime.now().weekday()
     day_name = day_names[day_number]
     User = get_user_model()
@@ -69,7 +75,7 @@ def classroom(request, classroom):
         'columns': range(1, 9),
         'classroom': classroom,
         'seats':seats,
-        'now_subject':now_subject.name,
+        'now_subject':now_subject,
         'period':period,
         'now':now,
         'day_of_week':day_name,
@@ -78,8 +84,7 @@ def classroom(request, classroom):
     return render(request, 'classroom.html', context)
 
 def get_period():
-
-    now = timezone.now().time()  # Lấy chỉ thời gian, không lấy ngày
+    now = datetime.now().time()  # Lấy chỉ thời gian, không lấy ngày
     # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
     lesson = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
     if lesson:
@@ -104,3 +109,43 @@ def get_subject(classroom, period):
             return False
     return schedule_entry.subject
         
+def summary_view (request,classroom):
+    classroom = get_object_or_404(SM_Classroom, name=classroom)
+    lesson = get_lessons_week(classroom=classroom)
+    context = {
+        'lessons':lesson,
+        'classroom':classroom
+    }
+    return render(request, 'summary.html', context)
+
+def get_lessons_week(classroom):
+    # Xác định ngày đầu tiên của tuần
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    # Xác định ngày cuối cùng của tuần
+    end_of_week = start_of_week + timedelta(days=6)
+    # Truy vấn các tiết học thuộc classroom và trong khoảng thời gian từ start_of_week đến end_of_week
+    lessons_week = Lessons.objects.filter(classroom=classroom, date_time__date__range=[start_of_week, end_of_week])
+    return lessons_week
+    
+def studentMark_inSubject(request,classroom,student):
+    classroom = get_object_or_404(SM_Classroom, name=classroom)
+    period = get_period()
+    student = get_object_or_404(Student, pk=student)
+    if not period:
+        messages.error(request, 'Lỗi: Bạn đang KHÔNG trong giờ dạy.')
+    else:
+        now_subject = get_subject(classroom=classroom, period= period)
+        mark_record = Mark.objects.filter(student=student, subject=now_subject).first()
+        context = {
+            'student': student,
+            'subject': now_subject,
+            'mark_record': mark_record,
+            'classroom':classroom
+        }
+    return render(request, 'details.html', context)
+
+
+    
+    
+    

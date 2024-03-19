@@ -5,6 +5,7 @@ from SM.models import Subject as SM_Subject
 from SM.models import Classroom as SM_Classroom
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import datetime
   
 
 class Student(models.Model):
@@ -44,7 +45,7 @@ class Lessons (models.Model):
     def clean(self):
         if not self.grade:
             raise ValidationError("Bạn chưa chấm điểm bài học.")
-
+  
     def save(self, *args, **kwargs):
         if not self.pk:  # Nếu đây là một tiết học mới
             last_lesson = Lessons.objects.filter(classroom=self.classroom, subject=self.subject).order_by('-counter').first()
@@ -54,7 +55,7 @@ class Lessons (models.Model):
 
 
 class Mark(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='student')
     subject= models.ForeignKey(SM_Subject, on_delete=models.CASCADE)
     Mark = models.JSONField(encoder=DjangoJSONEncoder, default=list)
     def clean(self):

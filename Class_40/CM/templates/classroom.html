@@ -42,7 +42,7 @@ Tên lớp,tên môn , Tiết trong ngày
                 {% if seat.row == row and seat.column == column %}
                     Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
                     {% if seat.student %}
-                    {{ seat.student.full_name }}
+                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
                     {% else %}
                     Trống
                     {% endif %}

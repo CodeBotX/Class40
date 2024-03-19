@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+<thead>
+    <tr>
+        <th>Môn Học</th>
+        <th>Điểm</th>
+    </tr>
+</thead>
+<tbody>
+    {% for mark in marks %}
+        <tr>
+            <td>{{ mark.subject.name }}</td>
+            <td>
+                {% for item in mark.Mark %}
+                    {{ item.mark }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+{% endblock content %}

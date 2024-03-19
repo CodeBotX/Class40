@@ -1,5 +1,5 @@
 
-from django.urls import path,include
+from django.urls import path,include, re_path
 from rest_framework.routers import DefaultRouter
 from .views import DailyScheduleViewSet
 from .views import add_schedule
@@ -14,4 +14,5 @@ urlpatterns = [
     path('addclassroom/', views.add_classroom, name='add_classroom'),
     path('addlessontime/', views.add_lesson_time, name='add_lesson_time'),
     path('addstudent/', views.add_student, name='add_student'),
+    path('addtimetable/', views.add_schedule, name='add_timetable'),
 ]
