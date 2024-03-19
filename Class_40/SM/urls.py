@@ -1,14 +1,8 @@
 
-from django.urls import path,include, re_path
-from rest_framework.routers import DefaultRouter
-from .views import DailyScheduleViewSet
-from .views import add_schedule
-router = DefaultRouter()
-router.register(r'daily-schedules', DailyScheduleViewSet)
+from django.urls import path
 from . import views
 
 urlpatterns = [  
-    path('api/', include(router.urls)),
     path('', views.school_view, name='School'),
     path('addsubject/', views.add_subject, name='add_subject'),
     path('addclassroom/', views.add_classroom, name='add_classroom'),

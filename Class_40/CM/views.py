@@ -8,11 +8,9 @@ from SM.models import LessonTime
 from SM.models import DailySchedule
 from SM.models import ScheduleEntry
 from SM.models import Subject
-from django.http import HttpResponseRedirect
 from datetime import datetime,timedelta
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.urls import reverse
 
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 

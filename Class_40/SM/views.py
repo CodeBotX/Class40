@@ -1,8 +1,7 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render
 from .models import *
 from rest_framework import viewsets
 from .models import DailySchedule
-from .serializers import DailyScheduleSerializer
 from .forms import *
 from django.contrib import messages
 from django.db import IntegrityError
@@ -56,10 +55,6 @@ def add_student(request):
 
 
 
-
-class DailyScheduleViewSet(viewsets.ModelViewSet):
-    queryset = DailySchedule.objects.all()
-    serializer_class = DailyScheduleSerializer
 
 # xử lý người dùng add thời Khóa biểu 
 # def add_schedule(request):
