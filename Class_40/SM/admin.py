@@ -5,7 +5,6 @@ from .models import *
 @admin.register(Classroom)
 class ClassroomAdmin(admin.ModelAdmin):
     list_display = ['name', 'manager']
-    filter_horizontal = ('subjects',)  # Cho phép dễ dàng quản lý mối quan hệ ManyToMany trong giao diện admin
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
@@ -14,3 +13,12 @@ class SubjectAdmin(admin.ModelAdmin):
 admin.site.register(LessonTime)
 admin.site.register(DailySchedule)
 admin.site.register(ScheduleEntry)
+admin.site.register(SchoolYear)
+admin.site.register(Semester)
+admin.site.register(Mark)
+admin.site.register(Student)
+
+@admin.register(ClassroomSubject)
+class ClassroomSubjectAdmin(admin.ModelAdmin):
+    list_display = ['classroom']
+    filter_horizontal = ['subject']

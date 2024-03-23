@@ -24,11 +24,7 @@ Tên lớp,tên môn , Tiết trong ngày
 {% block content %}
 
 <h1>{{ classroom.name }}</h1>
-<ul>
-    {% for student in student %}
-        <li>{{ student.full_name }}</li>
-    {% endfor %}
-</ul>
+
 
 <h1>{{now_subject}}</h1>
 <h1>{{period}}</h1>
@@ -42,7 +38,7 @@ Tên lớp,tên môn , Tiết trong ngày
                 {% if seat.row == row and seat.column == column %}
                     Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
                     {% if seat.student %}
-                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
+                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.name }}</a>
                     {% else %}
                     Trống
                     {% endif %}

@@ -3,11 +3,13 @@ from django.template import loader
 from .forms import *
 from .models import *
 from django.shortcuts import get_object_or_404, render
-from SM.models import Classroom as SM_Classroom
+from SM.models import Classroom
 from SM.models import LessonTime 
 from SM.models import DailySchedule
 from SM.models import ScheduleEntry
-from SM.models import Subject
+from SM.models import Student
+from SM.models import Mark
+from SM.models import *
 from datetime import datetime,timedelta
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -15,8 +17,7 @@ from django.contrib import messages
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
 
 
-# Create your views here.
-
+# home - chọn lớp học, dạy học or tổng kết
 def home(request):
     # Giáo viên chọn Lớp học
     template = loader.get_template('home.html')
@@ -28,11 +29,11 @@ def home(request):
                 return redirect('classroom', classroom=classroom)
             elif action == 'Tổng Kết':
                 return redirect('summary', classroom=classroom)
-    classrooms = SM_Classroom.objects.all()
+    classrooms = Classroom.objects.all()
     return render(request, 'home.html', {'classrooms': classrooms})
 
 
-
+# Thêm Điểm
 def add_mark(request):
     if request.method == 'POST':
         form = MarkAddForm(request.POST)
@@ -46,9 +47,10 @@ def add_mark(request):
 
     return render(request, 'testForm.html', {'add_markForm': form})
 
+# classroom  - Hiển thị sơ đồ lớp, Môn Học, Tiết Học, Kì học
 def classroom(request, classroom):
     # Hiển thị học sinh trong lớp
-    classroom = get_object_or_404(SM_Classroom, name=classroom) # đưa vào add lesson
+    classroom = get_object_or_404(Classroom, name=classroom) # đưa vào add lesson
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
     period = get_period() # tiết test
     now_subject = get_subject(classroom=classroom, period= period)
@@ -81,6 +83,8 @@ def classroom(request, classroom):
     }
     return render(request, 'classroom.html', context)
 
+
+# Trả về tiết học ở thời gian thực 
 def get_period():
     now = datetime.now().time()  # Lấy chỉ thời gian, không lấy ngày
     # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
@@ -93,9 +97,9 @@ def get_period():
         return "Hiện tại không phải thời gian học."
     
 
-# Trả về môn học đang học
+# Trả về môn học ở thời gian thực 
 def get_subject(classroom, period):
-    classroom = get_object_or_404(SM_Classroom, name=classroom)
+    classroom = get_object_or_404(Classroom, name=classroom)
     day_number = datetime.now().weekday()
     # Tìm DailySchedule tương ứng với classroom và ngày hiện tại
     daily_schedule = DailySchedule.objects.filter(classroom=classroom, day_of_week=day_number).first()
@@ -106,9 +110,11 @@ def get_subject(classroom, period):
         if not schedule_entry:
             return False
     return schedule_entry.subject
-        
+
+
+# Giáo viên xem bảng tổng kết tuần
 def summary_view (request,classroom):
-    classroom = get_object_or_404(SM_Classroom, name=classroom)
+    classroom = get_object_or_404(Classroom, name=classroom)
     lesson = get_lessons_week(classroom=classroom)
     context = {
         'lessons':lesson,
@@ -116,6 +122,7 @@ def summary_view (request,classroom):
     }
     return render(request, 'summary.html', context)
 
+# Lấy những tết học trong tuần để hiển thị tại summary
 def get_lessons_week(classroom):
     # Xác định ngày đầu tiên của tuần
     today = datetime.now().date()
@@ -125,9 +132,11 @@ def get_lessons_week(classroom):
     # Truy vấn các tiết học thuộc classroom và trong khoảng thời gian từ start_of_week đến end_of_week
     lessons_week = Lessons.objects.filter(classroom=classroom, date_time__date__range=[start_of_week, end_of_week])
     return lessons_week
-    
+
+
+# Thêm điểm cho học sinh trong khi đang học
 def studentMark_inSubject(request,classroom,student):
-    classroom = get_object_or_404(SM_Classroom, name=classroom)
+    classroom = get_object_or_404(Classroom, name=classroom)
     period = get_period()
     student = get_object_or_404(Student, pk=student)
     if not period:

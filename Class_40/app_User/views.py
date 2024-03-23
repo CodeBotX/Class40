@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
-from CM.models import Mark, Student
+# from CM.models import Mark, Student
 
 
 # 

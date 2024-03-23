@@ -3,9 +3,7 @@ from .models import *
 
 
 
-admin.site.register(Student)
 admin.site.register(Lessons)
-admin.site.register(Mark)
 
 
 class SeatAdmin(admin.ModelAdmin):
