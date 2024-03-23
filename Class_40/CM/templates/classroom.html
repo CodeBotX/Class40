@@ -23,54 +23,10 @@ Tên lớp,tên môn , Tiết trong ngày
 
 {% block content %}
 
-{% comment %} <h1>{{ classroom.name }}</h1>
-<ul>
-    {% for student in student %}
-        <li>{{ student.full_name }}</li>
-    {% endfor %}
-</ul>
-
-<h1>{{now_subject}}</h1>
-<h1>{{period}}</h1>
-
-<table>
-    {% for row in rows %}
-    <tr>
-        {% for column in columns %}
-        <td> 
-            {% for seat in seats %}
-                {% if seat.row == row and seat.column == column %}
-                    Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
-                    {% if seat.student %}
-                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
-                    {% else %}
-                    Trống
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        </td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-
-<br>
-{{now}} <br>
-{{day_of_week}}
-<br>
-{{daily_schedule}}
-
-<h2>Thêm bài học</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{form_addlesson.as_p }}
-    <button type="submit">Thêm</button>
-  </form> {% endcomment %}
-
   <div class="container-fluid" style="margin-top: 5%; ">
     <div class="container-fluid row">
       {% comment %} <div class="col-sm-1"></div> {% endcomment %}
-      <div class="col-sm-8">
+      <div class="col-8">
         <div style="  margin-bottom: 10px" class="row">
           <div class="container" style="margin-top: 10px">
             <div class="row">
@@ -93,49 +49,75 @@ Tên lớp,tên môn , Tiết trong ngày
           </div>
           
         </div>
-          <div class="card" style="margin-top: 2%; margin-bottom: 1%">
-            <div class="card-body">
-              <h5 class="card-title">Sơ Đồ Lớp</h5>
-              <div class="row row-cols-4" style="margin-top: 2% margin-bottom: 2%">
-                  <tbody >
-                      {% comment %} {% for student in Students %}
-                      <div class="col-sm-3 mb-3">
-                          <div class="card border-primary">
-                              <div class="card-body text-center d-flex align-items-center justify-content-center" style="margin-top: 2%; margin-bottom: 1%">
-                                  <a href="{% url 'student_detail' student.student_ID %}" class="text-white btn btn-primary text-truncate" style="font-size: 1em">{{ student.student_name }}</a>
-                              </div>
-                            </div>
-                        </div>
-                      {% endfor %} {% endcomment %}
-                      {% for row in rows %}
-                      <tr>
-                          {% for column in columns %}
-                          <td> 
-                              {% for seat in seats %}
-                                  {% if seat.row == row and seat.column == column %}
-                                      Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
+        <div class="card" style="margin-top: 2%; margin-bottom: 1%">
+          <div class="card-body">
+            <h5 class="card-title">Sơ Đồ Lớp</h5>
+            <div class="row row-cols-4" style="margin-top: 2% margin-bottom: 2%">
+              {% comment %} <table>
+                <tbody >
+                    {% for row in rows %}
+                    <tr>
+                        {% for column in columns %}
+                        <td> 
+                            {% for seat in seats %}
+                                {% if seat.row == row and seat.column == column %}
+                                    Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
 
-                                      {% if seat.student %}
-                                      
-                                      <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
+                                    {% if seat.student %}
                                     
-                                      {% else %}
-                                      Trống
-                                      {% endif %}
+                                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
+                                  
+                                    {% else %}
+                                    Trống
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table> {% endcomment %}
+              <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>#</th><!-- Thẻ trống để chứa ký tự trắng cho góc trên bên trái -->
+                        {% for column in columns %}
+                        <th class="text-center">{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <th>{{ row }}</th><!-- Hiển thị số hàng ở cột đầu tiên của mỗi hàng -->
+                        {% for column in columns %}
+                        <td> 
+                          {% for seat in seats %}
+                              {% if seat.row == row and seat.column == column %}
+                                  {% if seat.student %}
+                                    <div class="d-flex justify-content-center">
+                                      <a class="btn btn-primary text-white" href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}" style="width:100%">{{ seat.student.name }}</a>
+                                    </div>
+                                  {% else %}
                                   {% endif %}
-                              {% endfor %}
-                          </td>
+                              {% endif %}
                           {% endfor %}
-                      </tr>
-                      {% endfor %}
-                  </tbody>
+                        </td>
+
+                      
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             </div> 
-            </div>
-  
           </div>
+
+        </div>
           
       </div>
-      <div class="col-sm-4">
+      <div class="col-4">
         <div class="card display-5" style="margin-top: 10px">
           <div class="card-body" style="height: 60px">
             <p class="text-Blue text-center" style="font-size: 20px; ">{{now}}</p>

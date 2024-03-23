@@ -19,11 +19,11 @@
                     <div class="row" style="margin-top: 3%">
                         <div class="col-3"></div>
                         <div class="col-6">
-                            <button class="btn btn-primary" href="addclassroom/"  style="transform: scale(1.2); width: 100%;" type="submit">Quản lý lớp học</button>
-                            <button class="btn btn-primary" style="transform: scale(1.2); width: 100%;margin-top:2rem" type="submit">Quản lý môn học</button>
-                            <button class="btn btn-primary" style="transform: scale(1.2); width: 100%;margin-top:2rem" type="submit">Quản lý giáo viên</button>
-                            <button class="btn btn-primary" style="transform: scale(1.2); width: 100%;margin-top:2rem" type="submit">Quản lý học sinh</button>
-                            <button class="btn btn-primary" style="transform: scale(1.2); width: 100%;margin-top:2rem" type="submit">Quản lý thời khoá biểu</button>
+                            <a href="{% url 'add_classroom' %}" class="btn btn-primary" style="transform: scale(1.2); width: 100%;">Quản lý lớp học</a>
+                            <a href="{% url 'add_subject' %}" class="btn btn-primary" style="transform: scale(1.2); width: 100%; margin-top:2rem">Quản lý môn học</a>
+                            <a href="" class="btn btn-primary" style="transform: scale(1.2); width: 100%; margin-top:2rem">Quản lý giáo viên</a>
+                            <a href="{% url 'add_student' %}" class="btn btn-primary" style="transform: scale(1.2); width: 100%; margin-top:2rem">Quản lý học sinh</a>
+                            <a href="{% url 'add_timetable' %}" class="btn btn-primary" style="transform: scale(1.2); width: 100%; margin-top:2rem">Quản lý thời khoá biểu</a>
                         </div>
                         <div class="col-3"></div>
                     </div>

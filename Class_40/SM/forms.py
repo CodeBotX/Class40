@@ -1,6 +1,5 @@
 from django import forms
 from .models import *
-from CM.models import Student
 
 # FILE FORM 
 from .models import DailySchedule
@@ -13,7 +12,7 @@ class SubjectForm(forms.ModelForm):
 class ClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
-        fields = ['name', 'manager', 'subjects']
+        fields = ['name', 'manager']
 
 class LessonTimeForm(forms.ModelForm):
     class Meta:
@@ -28,7 +27,7 @@ class DailyScheduleForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['id', 'full_name', 'classroom']
+        fields = ['id', 'name', 'classroom']
 
 class ScheduleForm(forms.Form):
     day_of_week = forms.ChoiceField(choices=DailySchedule.DAY_CHOICES)
@@ -46,3 +45,7 @@ class ScheduleForm(forms.Form):
             period=self.cleaned_data['period'],
             subject=self.cleaned_data['subject']
         )
+
+class ClassoomSubjectForm(forms.ModelForm):
+    models = ClassroomSubject
+    fields =['classroom','subject']
