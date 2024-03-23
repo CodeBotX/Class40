@@ -59,7 +59,6 @@ def classroom(request, classroom):
     day_name = day_names[day_number]
     
     teacher = teacher = request.user
-    
     period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
 
     # , dayofweek=day_number, period=period
@@ -125,8 +124,8 @@ def get_lessons_week(classroom):
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def studentMark_inSubject(request,classroom,student):
     classroom = get_object_or_404(Classroom, name=classroom)
-    period = get_period()
     student = get_object_or_404(Student, pk=student)
+    # semester = 
     if not period:
         messages.error(request, 'Lỗi: Bạn đang KHÔNG trong giờ dạy.')
     else:

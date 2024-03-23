@@ -1,7 +1,8 @@
 from django.db import models
 from .models import *
 from django.core.exceptions import ValidationError
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -89,6 +90,13 @@ class SchoolYear(models.Model):
 class Semester(models.Model):
     name = models.CharField(max_length=30)
     school_year = models.ForeignKey(SchoolYear,on_delete=models.CASCADE, related_name='schoolyear')
+@receiver(post_save, sender=SchoolYear)
+def create_semesters(sender, instance, created, **kwargs):
+    if created:
+        # Tạo 3 kì học khi năm học được tạo
+        for i in range(1, 4):
+            semester_name = f"{instance.name}-{i}"
+            Semester.objects.create(name=semester_name, school_year=instance)
 
 # Bảng Điểm 
 class Mark(models.Model):

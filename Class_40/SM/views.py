@@ -1,12 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
-
 from .forms import *
 from django.contrib import messages
 from django.db import IntegrityError
 
 def school_view(request):
-    return render(request, 'school.html')
+    if request.method == 'POST':
+        form = SchoolYearForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/') 
+    else:
+        form = SchoolYearForm()
+    return render(request, 'school.html', {'schoolyearform': form})
 
 # Thêm môn học
 def add_subject(request):

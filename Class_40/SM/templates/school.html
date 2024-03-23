@@ -6,6 +6,13 @@
 <h1>Trang quản trị </h1>
 Lựa chọn quản lý
 <a href="{% url 'add_timetable' %}">Thời Khóa Biểu</a>
+
+<h1>Tạo Năm Học Mới</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ schoolyearform.as_p }}
+    <button type="submit">Lưu</button>
+</form>
 {% endblock content %}
 
 {% comment %} 
@@ -14,5 +21,9 @@ add môn họ<
 add teacher
 add student
 add time_table
+add năm họ<!-- 
+
+    add học kì
+ -->
 
 {% endcomment %}

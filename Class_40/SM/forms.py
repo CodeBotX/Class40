@@ -25,11 +25,17 @@ class StudentForm(forms.ModelForm):
         fields = ['id', 'name', 'classroom']
 
 class ClassoomSubjectForm(forms.ModelForm):
-    models = ClassroomSubject
-    fields =['classroom','subject']
+    class Meta:
+        models = ClassroomSubject
+        fields =['classroom','subject']
 
 class TableScheduleForm(forms.ModelForm):
-    models = TableSchedule
-    fields =['classroom','dayofweek','period','subject']
+    class Meta:
+        models = TableSchedule
+        fields =['classroom','dayofweek','period','subject']
     
+class SchoolYearForm(forms.ModelForm):
+    class Meta:
+        models = SchoolYear
+        fields =['name']
     
