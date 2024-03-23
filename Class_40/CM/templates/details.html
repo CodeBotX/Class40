@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Home{% endblock title %}
 
 {% comment %} 
@@ -15,7 +16,7 @@ Form add điểm (học sinh được lấy tự động)
 {% endcomment %}
 
 {% block content %}
-<h1>Điểm của Học Sinh: {{ student.name }} - Môn: {{ subject.name }}</h1>
+{% comment %} <h1>Điểm của Học Sinh: {{ student.name }} - Môn: {{ subject.name }}</h1>
     {% if mark_record %}
         <h2>Điểm</h2>
         <ul>
@@ -25,5 +26,90 @@ Form add điểm (học sinh được lấy tự động)
         </ul>
     {% else %}
         <p>Không có thông tin điểm cho học sinh này.</p>
-    {% endif %}
+    {% endif %} {% endcomment %}
+<div class="row"> 
+    <div class="col-1"></div>
+    <div class="col-2">
+        <img src="{% static "illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" %}" class="img-thumbnail" alt="...">
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-title text-center">Thông tin học sinh</h3>
+            <div class="card-body">   
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">ID</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Tên</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.full_name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
+
+<div class="row" style="margin-top: 1%">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body row">
+                <div class="col-3">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Nhập điểm</h2>
+                    <div class="card" style="height: 15rem">
+                        <form method="POST">
+                            {%csrf_token%}
+                            {{ add_markForm.mark }}
+                        </form>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Điểm</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Điểm</th>
+                                <th scope="col">Thông tin</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% if mark_record %}
+                                {% for mark in mark_record.Mark %}
+                                    <tr>
+                                        <th scope="row">Điểm</th>
+                                        <td>{{ mark.Mark }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                    <tr>
+                                        <th scope="row">Điểm</th>
+                                        <td>Không có thông tin điểm cho học sinh này.</td>
+                                        <td></td>
+                                    </tr>
+                            {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
+                
+
+            </div>
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div> 
 {% endblock content %}

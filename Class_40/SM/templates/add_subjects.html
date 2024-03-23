@@ -1,13 +1,84 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Home{% endblock title %}
 
 
 
 {% block content %}
-<h2>Thêm môn học</h2>
+{% comment %} <h2>Thêm môn học</h2>
     <form method="POST">
         {% csrf_token %}
         {{add_subjectForm.as_p }}
         <button type="submit">Thêm</button>
-    </form>
+    </form> {% endcomment %}
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">Thông báo</h4>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    // Kiểm tra xem có thông báo nào không
+    {% if messages %}
+    // Hiển thị modal nếu có
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+    });
+    {% endif %}
+</script>
+
+<div class="row" style="margin-top: 12%">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 2%;">Danh sách môn học</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nhập thông tin</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Môn học</th>
+                                <td>{{add_subjectForm.name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">ID</th>
+                                <td>{{add_subjectForm.id }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="openModalBtn" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="width:100%">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div> 
+    <div class="col-2"></div>   
+</div>
 {% endblock content %}

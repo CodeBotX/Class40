@@ -1,19 +1,122 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Home{% endblock title %}
 {% comment %} 
 Tổng hợp tuần 
 Như e tạo hôm trước
-trường thứ tự toàn tường
+trường thứ tự toàn trường
 {% endcomment %}
 
 
 
 
 {% block content %}
-<h1>Các Môn Học Trong Tuần Của Lớp: {{ classroom.name }}</h1>
+{% comment %} <h1>Các Môn Học Trong Tuần Của Lớp: {{ classroom.name }}</h1>
     <ul>
         {% for lesson in lessons %}
             <li>{{ lesson.name }} - {{ lesson.date_time}}<br>{{lesson.comment}}</li>
         {% endfor %}
-    </ul>
+    </ul> {% endcomment %}
+
+<div class="row"> 
+    <div class="col-1"></div>
+
+    <div class="col-10">
+        <div class="card">
+            <h3 class="card-title text-center">Thông tin lớp</h3>
+            <div class="card-body">   
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ classroom.name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Năm học</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">2023-2024</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
+
+<div class="row" style="margin-top: 1%">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body row">
+                <div class="col-2">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Xếp hạng</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tuần</th>
+                                <th scope="col">Xếp hạng</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-10">
+                    <h2 class="card-title text-white" style="margin-top: 1rem;">Điểm</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Thứ</th>
+                                <th scope="col">Tiết</th>
+                                <th scope="col">Môn</th>
+                                <th scope="col">Bài dạy</th>
+                                <th scope="col">Nhận xét</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% comment %} {% if mark_record %}
+                                {% for mark in mark_record.Mark %}
+                                    <tr>
+                                        <th scope="row">Điểm</th>
+                                        <td>{{ mark.Mark }}</td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                    <tr>
+                                        <th scope="row">Điểm</th>
+                                        <td>Không có thông tin điểm cho học sinh này.</td>
+                                        <td></td>
+                                    </tr>
+                            {% endif %} {% endcomment %}
+
+                            {% for lesson in lessons %}
+                            <tr>
+                                <th scope="row"></th>
+                                <td>{{ period }}</td>
+                                <td>{{now_subject}}</td>
+                                <td>{{ lesson.name }}</td>
+                                <td>{{lesson.comment}}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                
+
+            </div>
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
 {% endblock content %}

@@ -23,7 +23,7 @@ class MarkAddForm(forms.Form):
 
 # Form chọn lớp học
 class ClassroomSelectionForm(forms.Form):
-    classroom = forms.ModelChoiceField(queryset=SM_Classroom.objects.all(), empty_label=None, label='Select_Classroom')
+    classroom = forms.ModelChoiceField(queryset=SM_Classroom.objects.all(), empty_label=None, label='Select_Classroom',)
     
 # Form add lession
 

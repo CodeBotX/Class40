@@ -7,12 +7,12 @@ from django.contrib.auth import authenticate
 
 
 class SignUpForm(forms.Form):
-    email = forms.EmailField(label='Email',widget=forms.EmailInput)
-    id = forms.CharField(label="ID",widget=forms.NumberInput)
-    first_name = forms.CharField(label='FirstName')
-    last_name = forms.CharField(label ="LastName")
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Password confirmation" ,widget=forms.PasswordInput)
+    email = forms.EmailField(label='Email',widget=forms.EmailInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Enter your email'}))
+    id = forms.CharField(label="ID",widget=forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Enter your ID'}))
+    first_name = forms.CharField(label='First Name',widget=forms.TextInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Enter your firstname'}))
+    last_name = forms.CharField(label ="Last Name",widget=forms.TextInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Enter your lastname'}))
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Enter your passsword'}))
+    password2 = forms.CharField(label="Password confirmation" ,widget=forms.PasswordInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'Re-enter your password'}))
     def clean_password2(self):
         if 'password1' in self.cleaned_data:
             password1 = self.cleaned_data['password1']
@@ -43,8 +43,8 @@ class SignUpForm(forms.Form):
         
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    email = forms.EmailField(label='Email',widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
 
     def clean(self):
         cleaned_data = super().clean()
@@ -60,4 +60,4 @@ class LoginForm(forms.Form):
         return Teacher.objects.get(email=self.cleaned_data['email'])
 
 class StudentLookupForm(forms.Form):
-    student_id = forms.IntegerField(label='Student ID', required=True)
+    student_id = forms.IntegerField(label='Student ID', required=True, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter your ID'}))

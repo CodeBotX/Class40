@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Home{% endblock title %}
 
 
 {% block content %}
-<h1>Student: {{ student.name }}</h1>
+{% comment %} <h1>Student: {{ student.name }}</h1>
 
 {% if marks %}
     <h2>Marks:</h2>
@@ -14,5 +15,71 @@
     </ul>
 {% else %}
     <p>No marks found for this student.</p>
-{% endif %}
+{% endif %} {% endcomment %}
+
+<div class="row"> 
+    <div class="col-1"></div>
+    <div class="col-2">
+        <img src="{% static "illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" %}" class="img-thumbnail" alt="...">
+    </div>
+
+    <div class="col-8">
+        <div class="card">
+            <h3 class="card-title text-center">Thông tin học sinh</h3>
+            <div class="card-body">   
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">ID</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.student_id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Tên</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.name }}<td>
+                    </tr>
+                    <tr>
+                        <th class="display-6 font-weight-bold" style="font-size: 1.2em" scope="row">Lớp</th>
+                        <td class="display-6 font-weight-bold" style="font-size: 1.2em">{{ student.classroom }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
+
+<div class="row" style="margin-top: 1%">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div class="card" style="background-color: #07478D">
+            <div class="card-body">
+                <h2 class="card-title text-white" style="margin-top: 2%;">Điểm</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Môn</th>
+                        <th scope="col">Điểm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for subject in subjects %}
+                                <th scope="row">{{ subject.name }}</th>
+                                    {% if marks %}
+                                        {% for mark in marks %}
+                                            <td>{{ mark.Mark }}<td>
+                                        {% endfor %}
+                                    {% else %}
+                                        <td>chưa có điểm<td>
+                                    {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> 
+    <div class="col-1"></div>   
+</div>
 {% endblock content %}
