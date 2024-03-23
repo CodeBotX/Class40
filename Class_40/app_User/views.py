@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login
 from .forms import *
-# from CM.models import Mark, Student
+from SM.models import Mark, Student
 
 
 # 
@@ -40,6 +40,7 @@ def teacher_register(request):
 # -------------------------------------------------------------------------------------------------------
 
 def Look_up(request, student):
+<<<<<<< HEAD
     # Lấy thông tin sinh viên dựa trên student_id
     student_obj = get_object_or_404(student, id=student)
     
@@ -48,6 +49,23 @@ def Look_up(request, student):
     
     # Truyền dữ liệu vào template
     return render(request, 'lookup.html', {'marks': marks, 'student': student_obj})
+=======
+  # Lấy thông tin sinh viên dựa trên student_id
+  student_obj = get_object_or_404(Student, id=student)
+  
+  # Lấy tất cả điểm của sinh viên này
+  marks = Mark.objects.filter(student=student_obj)
+  subject_scores = {}
+  for mark in marks:
+    subject_name = mark.subject.name
+    scores = mark.scores
+    if subject_name not in subject_scores:
+        subject_scores[subject_name] = []
+    subject_scores[subject_name].extend(scores)
+  
+  # Truyền dữ liệu vào template
+  return render(request, 'lookup.html', {'marks': subject_scores, 'student': student_obj})
+>>>>>>> 6aea3faec628f613ca210f484b08913db4730ad9
 
 
 def teacher_login_home(request):

@@ -4,6 +4,7 @@
 
 
 {% block content %}
+<<<<<<< HEAD
 
 
 <div class="row" style="margin-left: 1%; margin-right: 1%">
@@ -35,6 +36,18 @@
     </div>
     <div class="col-3"></div>
 </div>   
+=======
+<h1>Trang quản trị </h1>
+Lựa chọn quản lý
+<a href="{% url 'add_timetable' %}">Thời Khóa Biểu</a>
+
+<h1>Tạo Năm Học Mới</h1>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p }}
+    <button type="submit">Lưu</button>
+</form>
+>>>>>>> 6aea3faec628f613ca210f484b08913db4730ad9
 {% endblock content %}
 
 {% comment %} 
@@ -43,5 +56,9 @@ add môn họ<
 add teacher
 add student
 add time_table
+add năm họ<!-- 
+
+    add học kì
+ -->
 
 {% endcomment %}

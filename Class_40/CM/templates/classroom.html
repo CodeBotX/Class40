@@ -63,6 +63,7 @@ Tên lớp,tên môn , Tiết trong ngày
                                 {% if seat.row == row and seat.column == column %}
                                     Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
 
+<<<<<<< HEAD
                                     {% if seat.student %}
                                     
                                     <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.full_name }}</a>
@@ -188,6 +189,47 @@ Tên lớp,tên môn , Tiết trong ngày
   
     </div>
 </div>
+=======
+môn học
+<h1>{{subject}}</h1>
+
+<h1>{{period}}</h1>
+
+
+<table>
+    {% for row in rows %}
+    <tr>
+        {% for column in columns %}
+        <td> 
+            {% for seat in seats %}
+                {% if seat.row == row and seat.column == column %}
+                    Hàng: {{ seat.row }},Cột: {{ seat.column }}<br>
+                    {% if seat.student %}
+                    <a href="{% url 'studentMark_inSubject' classroom.name seat.student.id %}">{{ seat.student.name }}</a>
+                    {% else %}
+                    Trống
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+{{now}} <br>
+{{day_of_week}}
+<br>
+{{daily_schedule}}
+
+<h2>Thêm bài học</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{form_addlesson.as_p }}
+    <button type="submit">Thêm</button>
+  </form>
+>>>>>>> 6aea3faec628f613ca210f484b08913db4730ad9
 
  {% endblock content %}
 {% comment %} 

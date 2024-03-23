@@ -9,17 +9,24 @@ Form lựa chọn lớp học
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import *
+from SM.models import Mark
 
 # 
-class MarkAddForm(forms.Form):
-    mark = forms.IntegerField(label='Mark', min_value=0, max_value=10)  # Đặt giới hạn cho trường nhập liệu
+class MarkForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        student = kwargs.pop('student', None)
+        subject = kwargs.pop('subject', None)
+        super(MarkForm, self).__init__(*args, **kwargs)
+        if student:
+            self.fields['student'].initial = student
+            self.fields['student'].widget = forms.HiddenInput()
+        if subject:
+            self.fields['subject'].initial = subject
+            self.fields['subject'].widget = forms.HiddenInput()
 
-    def clean_mark(self):
-        mark = self.cleaned_data.get('mark')
-        # Kiểm tra xem điểm có nằm trong khoảng từ 0 đến 10 hay không
-        if mark <= 0 or mark >= 10:
-            raise ValidationError('Điểm số phải nằm trong khoảng từ 0 đến 10.') 
-        return mark
+    class Meta:
+        model = Mark
+        fields = ['scores']
 
 # Form chọn lớp học
 class ClassroomSelectionForm(forms.Form):

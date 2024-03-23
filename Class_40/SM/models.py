@@ -1,7 +1,8 @@
 from django.db import models
 from .models import *
 from django.core.exceptions import ValidationError
-from django.core.serializers.json import DjangoJSONEncoder 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -49,7 +50,8 @@ class LessonTime(models.Model):
         return f"{self.period}: {self.start_time.strftime('%H:%M')} - {self.end_time.strftime('%H:%M')}"
 
 
-class DailySchedule(models.Model):
+
+class TableSchedule(models.Model):
     DAY_CHOICES = (
         (0, 'Monday'),
         (1, 'Tuesday'),
@@ -59,23 +61,11 @@ class DailySchedule(models.Model):
         (5, 'Saturday'),
         (6, 'Sunday'),
     )
-    day_of_week = models.IntegerField(choices=DAY_CHOICES,)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='daily_schedules')
-    def __str__(self):
-        return f"{self.classroom.name} - {self.day_of_week}"
-    def get_dayofweek(self):
-        return f"{self.day_of_week}"
-
-class ScheduleEntry(models.Model):
-    daily_schedule = models.ForeignKey(DailySchedule, on_delete=models.CASCADE, related_name='schedule_entries')
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='timetable')
+    dayofweek = models.IntegerField(choices=DAY_CHOICES)
     period = models.OneToOneField(LessonTime, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ['period__start_time']  # Sắp xếp theo thời gian bắt đầu
-
-    # def __str__(self):
-    #     return f"{self.daily_schedule.classroom.name} - {self.get_day_display()} - Tiết {self.period.period}: {self.subject.name} ({self.period.start_time.strftime('%H:%M')} - {self.period.end_time.strftime('%H:%M')})"
+ 
 
 # Năm học
 class SchoolYear(models.Model):
@@ -100,30 +90,21 @@ class SchoolYear(models.Model):
 class Semester(models.Model):
     name = models.CharField(max_length=30)
     school_year = models.ForeignKey(SchoolYear,on_delete=models.CASCADE, related_name='schoolyear')
+@receiver(post_save, sender=SchoolYear)
+def create_semesters(sender, instance, created, **kwargs):
+    if created:
+        # Tạo 3 kì học khi năm học được tạo
+        for i in range(1, 4):
+            semester_name = f"{instance.name}-{i}"
+            Semester.objects.create(name=semester_name, school_year=instance)
 
 # Bảng Điểm 
 class Mark(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='student')
     subject= models.ForeignKey(Subject, on_delete=models.CASCADE)
     scores = ArrayField(models.FloatField(), blank=True, null=True)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)  
-    # def clean(self): 
-    #     if self.subject not in self.student.classroom.subjects.all():
-    #         raise ValidationError("Học sinh KHÔNG học môn học này.")
+    # semester = models.ForeignKey(Semester, on_delete=models.CASCADE)  
     
-    
-    # def add_mark(self, mark):
-    #     if not (0 <= mark <= 10):
-    #         raise ValidationError("Điểm không hợp lệ. Điểm phải nằm trong khoảng [0, 10].")
-        
-    #     # Lấy danh sách điểm hiện tại (hoặc khởi tạo một danh sách trống nếu chưa có điểm nào)
-    #         current_scores = self.scores or []
 
-    #     # Thêm điểm mới vào danh sách
-    #         current_scores.append(mark)
 
-    #     # Cập nhật trường scores với danh sách mới
-    #         self.scores = current_scores
-    #         self.save()
-    #     return True
     
