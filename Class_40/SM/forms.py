@@ -39,3 +39,6 @@ class SchoolYearForm(forms.ModelForm):
         models = SchoolYear
         fields =['name']
     
+
+class SemesterSelectionForm(forms.Form):
+    semester = forms.ModelChoiceField(queryset=Semester.objects.all(), empty_label="Chọn Kì Học")

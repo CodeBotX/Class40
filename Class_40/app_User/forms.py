@@ -59,5 +59,6 @@ class LoginForm(forms.Form):
     def get_user(self):
         return Teacher.objects.get(email=self.cleaned_data['email'])
 
+
 class StudentLookupForm(forms.Form):
     student_id = forms.IntegerField(label='Student ID', required=True)

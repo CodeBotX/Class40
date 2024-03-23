@@ -22,3 +22,5 @@ admin.site.register(Student)
 class ClassroomSubjectAdmin(admin.ModelAdmin):
     list_display = ['classroom']
     filter_horizontal = ['subject']
+
+# admin.site.register(CurrentSemester)

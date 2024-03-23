@@ -4,15 +4,18 @@ from .forms import *
 from django.contrib import messages
 from django.db import IntegrityError
 
+
 def school_view(request):
     if request.method == 'POST':
-        form = SchoolYearForm(request.POST)
+        form = SemesterSelectionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/') 
+            # Lưu lựa chọn vào session
+            request.session['current_semester_id'] = form.cleaned_data['semester'].id
+            return redirect('School')
     else:
-        form = SchoolYearForm()
-    return render(request, 'school.html', {'schoolyearform': form})
+        form = SemesterSelectionForm()
+    return render(request, 'school.html', {'form': form})
+
 
 # Thêm môn học
 def add_subject(request):
@@ -20,11 +23,10 @@ def add_subject(request):
         form = SubjectForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Thêm môn học thành công!')
+            return redirect('/')  # Chuyển hướng sau khi lưu thành công
     else:
         form = SubjectForm()
-
-    return render(request, 'add_subjects.html', {'add_subjectForm': form})
+    return render(request, 'add_subjects.html', {'add_subjectsform': form})
 # Thêm lớp học
 def add_and_set_classroom(request):
     if request.method == 'POST':
@@ -56,7 +58,7 @@ def add_lesson_time(request):
         form = LessonTimeForm()
     return render(request, 'time_table.html', {'add_lesson_timeForm': form})
 
-# Thêm học sinh
+# Thêm học sinh (OK)
 def add_student(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)

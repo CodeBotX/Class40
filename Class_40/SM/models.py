@@ -103,6 +103,8 @@ class Mark(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='student')
     subject= models.ForeignKey(Subject, on_delete=models.CASCADE)
     scores = ArrayField(models.FloatField(), blank=True, null=True)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)  
+    # semester = models.ForeignKey(Semester, on_delete=models.CASCADE)  
+    
+
 
     

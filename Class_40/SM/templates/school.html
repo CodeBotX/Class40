@@ -10,7 +10,7 @@ Lựa chọn quản lý
 <h1>Tạo Năm Học Mới</h1>
 <form method="post">
     {% csrf_token %}
-    {{ schoolyearform.as_p }}
+    {{form.as_p }}
     <button type="submit">Lưu</button>
 </form>
 {% endblock content %}

@@ -9,6 +9,7 @@ from SM.models import TableSchedule
 from SM.models import Student
 from SM.models import Mark
 from SM.models import *
+
 from datetime import datetime,timedelta
 from django.contrib.auth import get_user_model
 from django.contrib import messages
@@ -123,21 +124,16 @@ def get_lessons_week(classroom):
 
 # Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def studentMark_inSubject(request,classroom,student):
-    classroom = get_object_or_404(Classroom, name=classroom)
     student = get_object_or_404(Student, pk=student)
-    # semester = 
-    if not period:
-        messages.error(request, 'Lỗi: Bạn đang KHÔNG trong giờ dạy.')
+    subject = get_nowsubject(classroom)
+    if request.method == 'POST':
+        form = MarkForm(request.POST, student=student, subject=subject)
+        if form.is_valid():
+            form.save()
+            # Xử lý sau khi lưu
     else:
-        now_subject = get_subject(classroom=classroom, period= period)
-        mark_record = Mark.objects.filter(student=student, subject=now_subject).first()
-        context = {
-            'student': student,
-            'subject': now_subject,
-            'mark_record': mark_record,
-            'classroom':classroom
-        }
-    return render(request, 'details.html', context)
+        form = MarkForm(student=student, subject=subject)
+    return render(request, 'add_mark.html', {'form': form})
 
 
 
