@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 
 day_names = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"]
+day_namese = ["Monday", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Sunday"]
 
 
 # home - chọn lớp học, dạy học or tổng kết
@@ -92,17 +93,11 @@ def get_nowsubject(classroom):
     now = datetime.now()
     # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
     period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
-    schedule = TableSchedule.objects.filter(classroom=classroom, period=period).first()
+    schedule = TableSchedule.objects.filter(classroom=classroom,dayofweek=dayofweek, period=period).first()
     if schedule:
         return schedule.subject
     else:
         return None
-    
-
-# # Trả về môn học ở thời gian thực 
-# def get_subject(classroom, period):
-#     classroom = get_object_or_404(Classroom, name=classroom)
-    
 
 
 # Giáo viên xem bảng tổng kết tuần
@@ -127,7 +122,7 @@ def get_lessons_week(classroom):
     return lessons_week
 
 
-# Thêm điểm cho học sinh trong khi đang học
+# Thêm điểm cho học sinh trong khi đang học ( đang lỗi )
 def studentMark_inSubject(request,classroom,student):
     classroom = get_object_or_404(Classroom, name=classroom)
     period = get_period()
