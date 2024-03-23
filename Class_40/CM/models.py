@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.core.serializers.json import DjangoJSONEncoder 
 from SM.models import Subject
 from SM.models import Student
 from SM.models import Classroom
@@ -8,21 +7,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
   
-#  SM quản lý
-# class Student(models.Model):
-#     id = models.IntegerField(primary_key=True)
-#     name = models.CharField(max_length=100,blank=False, null=False)
-#     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='student') # cho phép classroom truy vấn được các student của mình
-#     def has_seat(self):
-#         # Check chỗ ngồi của học sinh
-#         try:
-#             seat = self.seat.get(student=self)
-#             return f"Seat ({seat.row}, {seat.column})"
-#         except Seat.DoesNotExist:
-#             return "Chưa có chỗ ngồi"
-    
-#     def __str__(self):
-#         return f"{self.name} - {self.id}" 
 
 # Tiết học
 class Lessons (models.Model):

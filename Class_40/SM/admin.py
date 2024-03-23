@@ -11,8 +11,8 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ['name']  # Giả sử rằng Subject có trường 'name'
 
 admin.site.register(LessonTime)
-admin.site.register(DailySchedule)
-admin.site.register(ScheduleEntry)
+admin.site.register(TableSchedule)
+
 admin.site.register(SchoolYear)
 admin.site.register(Semester)
 admin.site.register(Mark)

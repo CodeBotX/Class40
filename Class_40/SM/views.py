@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import *
-# from rest_framework import viewsets
-# from .models import DailySchedule
+
 from .forms import *
 from django.contrib import messages
 from django.db import IntegrityError
@@ -68,7 +67,7 @@ def add_student(request):
 # Thêm thời khóa biểu
 def add_schedule(request):
     if request.method == 'POST':
-        form = ScheduleForm(request.POST)
+        form = TableScheduleForm(request.POST)
         if form.is_valid():
             try:
                 form.save()
@@ -76,6 +75,6 @@ def add_schedule(request):
             except IntegrityError:
                 messages.error(request, 'Lỗi: Tiết học này đã được thêm rồi.')
     else:
-        form = ScheduleForm()
+        form = TableScheduleForm()
 
     return render(request, 'time_table.html', {'timetable_form': form})

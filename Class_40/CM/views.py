@@ -5,8 +5,7 @@ from .models import *
 from django.shortcuts import get_object_or_404, render
 from SM.models import Classroom
 from SM.models import LessonTime 
-from SM.models import DailySchedule
-from SM.models import ScheduleEntry
+from SM.models import TableSchedule
 from SM.models import Student
 from SM.models import Mark
 from SM.models import *
@@ -52,20 +51,23 @@ def classroom(request, classroom):
     # Hiển thị học sinh trong lớp
     classroom = get_object_or_404(Classroom, name=classroom) # đưa vào add lesson
     seats = classroom.seats.all().order_by('row', 'column') # đưa vào add lesson
-    period = get_period() # tiết test
-    now_subject = get_subject(classroom=classroom, period= period)
+    nowsubject = get_nowsubject(classroom=classroom)
     now = datetime.now()
-    # now = timezone.now().time()
+    # Lấy thứ
     day_number = datetime.now().weekday()
     day_name = day_names[day_number]
-    User = get_user_model()
+    
     teacher = teacher = request.user
+    
+    period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
+
+    # , dayofweek=day_number, period=period
     if request.method == 'POST':
         form_addlesson = LessonForm(request.POST, teacher=teacher)
         if form_addlesson.is_valid():
             lesson = form_addlesson.save(commit=False)
             lesson.classroom = classroom
-            lesson.subject = now_subject
+            lesson.subject = nowsubject
             lesson.save()
             messages.success(request, 'Thành công!')
     else:
@@ -75,41 +77,32 @@ def classroom(request, classroom):
         'columns': range(1, 9),
         'classroom': classroom,
         'seats':seats,
-        'now_subject':now_subject,
-        'period':period,
         'now':now,
+        'subject':nowsubject,
         'day_of_week':day_name,
-        'form_addlesson': form_addlesson
+        'form_addlesson': form_addlesson,
+        'period':period
     }
     return render(request, 'classroom.html', context)
 
 
 # Trả về tiết học ở thời gian thực 
-def get_period():
-    now = datetime.now().time()  # Lấy chỉ thời gian, không lấy ngày
+def get_nowsubject(classroom):
+    dayofweek = datetime.now().weekday()
+    now = datetime.now()
     # Truy vấn database để tìm tiết học mà thời gian hiện tại nằm giữa thời gian bắt đầu và kết thúc
-    lesson = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
-    if lesson:
-        # Nếu tìm thấy tiết học, trả về thông tin tiết học
-        return f"{lesson.period}"
+    period = LessonTime.objects.filter(start_time__lte=now, end_time__gte=now).first()
+    schedule = TableSchedule.objects.filter(classroom=classroom, period=period).first()
+    if schedule:
+        return schedule.subject
     else:
-        # Nếu không tìm thấy tiết học nào, có nghĩa là hiện tại không phải thời gian học
-        return "Hiện tại không phải thời gian học."
+        return None
     
 
-# Trả về môn học ở thời gian thực 
-def get_subject(classroom, period):
-    classroom = get_object_or_404(Classroom, name=classroom)
-    day_number = datetime.now().weekday()
-    # Tìm DailySchedule tương ứng với classroom và ngày hiện tại
-    daily_schedule = DailySchedule.objects.filter(classroom=classroom, day_of_week=day_number).first()
-    if not daily_schedule:
-        return False
-    else:
-        schedule_entry = ScheduleEntry.objects.filter(daily_schedule=daily_schedule, period__period=period).first()
-        if not schedule_entry:
-            return False
-    return schedule_entry.subject
+# # Trả về môn học ở thời gian thực 
+# def get_subject(classroom, period):
+#     classroom = get_object_or_404(Classroom, name=classroom)
+    
 
 
 # Giáo viên xem bảng tổng kết tuần
